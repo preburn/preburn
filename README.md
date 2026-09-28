@@ -7,7 +7,24 @@
 
 # Preburn
 
-Preburn is an open-source, self-hosted service that decides, before each AI call, whether to allow, route, cap or deny it, based on the contribution margin of the end customer who triggered the call. Your app asks Preburn before each metered AI call and reports the usage afterwards. Margin per customer is the revenue you record through the revenue API minus the AI cost that Preburn prices from the reported usage. Preburn never proxies provider traffic and never receives prompts or outputs.
+Preburn is a margin control plane for AI products.
+
+Before each AI call, your app asks Preburn one question: Is this customer still profitable to serve? It gets back allow, route to a cheaper model, cap, or deny in under 250ms. Then your app calls the provider directly.
+
+Preburn never sits between your app and the provider. No proxy, no added latency on inference, no visibility into your prompts or outputs. Per-customer margin is the revenue you record through the revenue API minus the AI cost Preburn prices from the usage your app reports back.
+
+Preburn exists because:
+
+- One power user is quietly eating 40% of your margin, and you'll find out when the OpenAI bill arrives.
+- Cost dashboards tell you what happened last month. You need to decide what happens on the next request.
+- AI gateways solve the wrong problem. They add latency, become a SPOF, and read your prompts. You wanted control, not a proxy.
+- Your billing code was about to grow a bad version of this. We already wrote it.
+
+What Preburn is not:
+
+- Not an AI gateway. We don't proxy traffic.
+- Not an observability tool. We decide. We don't just record.
+- Not a rate limiter. We rate-limit on margin, not requests.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/overview-dark.png">
